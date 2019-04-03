@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: go-server-prom
+  namespace: go-server
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: go-server-prom
+  namespace: go-server
+rules:
+- apiGroups:
+  - "*"
+  resources:
+  - "*"
+  verbs:
+  - "*"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: go-server-prom
+  namespace: go-server
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: go-server-prom
+subjects:
+- kind: ServiceAccount
+  name: go-server-prom
+  namespace: go-server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    prometheus: go-server
+  name: go-server-prom
+  namespace: go-server
+spec:
+  ports:
+  - name: web
+    port: 9090
+    targetPort: web
+  selector:
+    app: prometheus
+    prometheus: go-server
+  sessionAffinity: ClientIP
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  labels:
+    prometheus: go-server
+  name: go-server
+  namespace: go-server
+spec:
+  #alerting:
+  #  alertmanagers:
+  #  - name: alertmanager-main
+  #    namespace: monitoring
+  #    port: web
+  baseImage: quay.io/prometheus/prometheus
+  version: v2.5.0
+  nodeSelector:
+    beta.kubernetes.io/os: linux
+  replicas: 1
+  resources:
+    requests:
+      memory: 400Mi
+  #ruleSelector:
+  #  matchLabels:
+  #    prometheus: k8s
+  #    role: alert-rules
+  securityContext:
+    fsGroup: 2000
+    runAsNonRoot: true
+    runAsUser: 1000
+  serviceAccountName: go-server-prom
+  serviceMonitorNamespaceSelector: {}
+  serviceMonitorSelector:
+    matchLabels:
+      app: go-server
+
