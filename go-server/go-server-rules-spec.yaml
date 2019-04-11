@@ -1,0 +1,6 @@
+  groups:
+  - name: go-server.rules
+    rules:
+    - expr: sum(go_server_http_request_count)
+      record: go_server_http_request_count_total
+

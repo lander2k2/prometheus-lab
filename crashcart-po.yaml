@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: crashcart
+  namespace: go-server
+spec:
+  containers:
+  - image: quay.io/lander2k2/crashcart
+    name: crashcart
+    imagePullPolicy: Always
+  restartPolicy: Always
+

@@ -1,5 +1,5 @@
-IMAGE_REPO?=quay.io/lander2k2/go-server
-IMAGE_TAG?=0.1.1
+IMAGE_REPO?=quay.io/myrepo/go-server
+IMAGE_TAG?=0.1
 
 build:
 	GOOS=linux go build -o foster-server main.go

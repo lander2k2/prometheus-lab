@@ -1,0 +1,12 @@
+15c15
+< 	httpRequests = promauto.NewCounter(
+---
+> 	httpRequests = promauto.NewCounterVec(
+19a20
+> 		[]string{"path", "method"},
+49c50,52
+< 	httpRequests.Inc()
+---
+> 	httpRequests.With(
+> 		prometheus.Labels{"path": r.RequestURI, "method": r.Method},
+> 	).Inc()

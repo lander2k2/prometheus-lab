@@ -69,10 +69,9 @@ spec:
   resources:
     requests:
       memory: 400Mi
-  #ruleSelector:
-  #  matchLabels:
-  #    prometheus: k8s
-  #    role: alert-rules
+  ruleSelector:
+    matchLabels:
+      app: go-server
   securityContext:
     fsGroup: 2000
     runAsNonRoot: true
