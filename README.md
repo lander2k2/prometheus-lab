@@ -1,6 +1,6 @@
 # Prometheus Lab
 
-Instrumenting an application to expose Prometheus metrics and collecting them using the Prometheus Operator.
+Instrument an application to expose Prometheus metrics and collect those metrics using Prometheus deployed with the Prometheus Operator.
 
 ## Prerequisites
 
