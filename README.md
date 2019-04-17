@@ -45,16 +45,16 @@ Test the update:
 Deploy prometheus operator:
 
     $ kubectl create namespace monitoring
-    $ kubectl apply -f prometheus-operator.yaml
+    $ kubectl apply -f ../prometheus-operator.yaml
 
 Create prometheus instance:
 
-    $ kubectl apply -f go-server/go-server-prom.yaml
+    $ kubectl apply -f go-server-prom.yaml
     $ kubectl port-forward -n go-server svc/go-server-prom 9090:9090
 
 Create service monitor:
 
-    $ kubectl apply -f go-server/go-server-svcmon.yaml
+    $ kubectl apply -f go-server-svcmon.yaml
     $ kubectl port-forward -n go-server svc/go-server-prom 9090:9090
 
 Add some metadata to metrics:
@@ -75,6 +75,6 @@ Test the update:
 
 Create rules:
 
-    $ promtool check rules rules.yaml
-    $ cat go-server-rules.yaml rules.yaml | kubectl apply -f -
+    $ promtool check rules go-server-rules-spec.yaml
+    $ cat go-server-rules.yaml go-server-rules-spec.yaml | kubectl apply -f -
 
